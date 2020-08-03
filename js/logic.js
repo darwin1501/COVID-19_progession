@@ -1,7 +1,13 @@
 // console.log('connected');
 
 
-const dataHistory = 'https://disease.sh/v3/covid-19/historical?lastdays=all';
+// const dataHistory = 'https://disease.sh/v3/covid-19/historical?lastdays=all';
+// const dataHistory = 'https://corona.lmao.ninja/v2/historical?lastdays=all';
+// https://corona.lmao.ninja/v2/historical?lastdays=all
+
+//another api
+const dataHistory = 'https://pomber.github.io/covid19/timeseries.json';
+// https://pomber.github.io/covid19/timeseries.json
 
 
 async function getData(){
@@ -17,6 +23,8 @@ async function getData(){
 		sessionStorage.dataHistory = JSON.stringify( getDataHistory );
 
 		countCases();
+
+		getCountry();
 		//get data here
 
 		// console.log(getDataHistory);
@@ -39,8 +47,24 @@ const getCountry = (() =>{
 
 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
-	//country name
-	console.log(dataHistory[0].country);
+
+	const country = Object.keys(dataHistory);
+
+	// console.log(country[0])
+
+	for (let countryCount = 0; countryCount < country.length; countryCount++) {
+		
+		const counrtyId = document.getElementById('country');
+
+		const h1 = document.createElement('h1');
+
+		h1.innerHTML = country[countryCount];
+
+		counrtyId.appendChild(h1);
+
+		console.log(country[countryCount]);
+	};
+
 })
 
 const countCases = (() => {
@@ -49,12 +73,13 @@ const countCases = (() => {
 
 	//set the aprs
 
-	console.log(dataHistory)
+	console.log(dataHistory);
 
-	console.log(dataHistory[0].country);
-	//loop country name
-	//add html id to each element
-	console.log(dataHistory[0].timeline.cases);
+	console.log(dataHistory.Philippines[0].confirmed);
+	
+	// console.log(dataHistory[0].timeline.cases);
+
+
 	//pass thre result in array
 	//get int only for case count
 	//get string only for date
