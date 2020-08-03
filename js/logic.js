@@ -53,12 +53,20 @@ const getCountry = (() =>{
 	// console.log(country[0])
 
 	for (let countryCount = 0; countryCount < country.length; countryCount++) {
+
+		let countryResult = country[countryCount]
 		
-		const counrtyId = document.getElementById('country');
+		let counrtyId = document.getElementById('country');
 
-		const h1 = document.createElement('h1');
+		let h1 = document.createElement('h1');
 
-		h1.innerHTML = country[countryCount];
+		let h4 = document.createElement('h4');
+
+		h4.setAttribute("id", countryResult);
+
+		h1.innerHTML = countryResult;
+
+		h1.appendChild(h4);
 
 		counrtyId.appendChild(h1);
 
@@ -75,6 +83,7 @@ const countCases = (() => {
 
 	console.log(dataHistory);
 
+	//show the total case on specific day
 	console.log(dataHistory.Philippines[0].confirmed);
 	
 	// console.log(dataHistory[0].timeline.cases);
