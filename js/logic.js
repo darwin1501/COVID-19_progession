@@ -22,9 +22,9 @@ async function getData(){
 
 		sessionStorage.dataHistory = JSON.stringify( getDataHistory );
 
-		countCases();
-
 		getCountry();
+
+		countCases();
 		//get data here
 
 		// console.log(getDataHistory);
@@ -49,6 +49,27 @@ const getCountry = (() =>{
 
 
 	const country = Object.keys(dataHistory);
+	//number of days since the pandemic has began on 1/22/2020
+	let days = dataHistory.Afghanistan.length
+
+	//subtract 1
+	days = days - 1;
+
+	//set the maximum value of slider
+	const slider = document.getElementById('slider');
+
+	slider.setAttribute("max", days);
+
+	slider.setAttribute("value", days);
+
+	const output = document.getElementById("demo");
+
+	output.innerHTML = slider.value;
+
+	//slider
+	// console.log(country[0]);
+
+
 
 	// console.log(country[0])
 
@@ -70,7 +91,7 @@ const getCountry = (() =>{
 
 		counrtyId.appendChild(h1);
 
-		console.log(country[countryCount]);
+		// console.log(country[countryCount]);
 	};
 
 })
@@ -81,19 +102,82 @@ const countCases = (() => {
 
 	//set the aprs
 
-	console.log(dataHistory);
-
-	//show the total case on specific day
-	console.log(dataHistory.Philippines[0].confirmed);
+	// console.log(dataHistory);
 	
+	// console.log(dataHistory.Philippines[0].confirmed);
+	//show the total case on specific day
+	const totalCase = dataHistory.Philippines[193].confirmed;
+	
+	const countryId = document.getElementById('Philippines');
+
+	// console.log(countryId);
+
+	countryId.innerHTML = totalCase;
+
+
 	// console.log(dataHistory[0].timeline.cases);
-
-
 	//pass thre result in array
 	//get int only for case count
 	//get string only for date
 	//distribute count on each ID
+
 })
+
+const slider = document.getElementById("slider");
+
+// const output = document.getElementById("demo");
+
+// output.innerHTML = slider.value;
+
+slider.oninput = function() {
+
+  // output.innerHTML = this.value;
+ const dataHistory = JSON.parse( sessionStorage.dataHistory );
+
+ const sliderValue = document.getElementById('slider').value
+
+ const country = Object.keys(dataHistory);
+
+ const totalCase = dataHistory.Philippines[sliderValue].confirmed;
+	
+ const countryId = document.getElementById('Philippines');
+
+ const output = document.getElementById("demo");
+
+ for (let countryCount = 0; countryCount < country.length; countryCount++) {
+
+ 	// console.log(sliderValue);
+
+ 	// console.log(singleCountry);
+
+ 	const countryId = document.getElementById(country[countryCount]);
+
+ 	// console.log(countryId);
+ 	// const countryTest = {Afghanistan};
+
+ 	//replace the country with a variable
+
+ 	const totalCase = dataHistory.Afghanistan[sliderValue].confirmed;
+
+ 	// const totalCaseTest = dataHistory.country[countryCount];
+
+ 	// console.log(totalCaseTest)
+
+ 	// console.log(dataHistory)
+
+ 	// console.log(dataHistory.country[countryCount][sliderValue].confirmed)
+
+ 	countryId.innerHTML = totalCase;
+
+ };
+
+	output.innerHTML = sliderValue;
+
+	// console.log(countryId);
+
+	countryId.innerHTML = totalCase;
+
+}
 
 //get all country name
 // get their total case on each day
