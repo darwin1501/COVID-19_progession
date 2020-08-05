@@ -100,6 +100,10 @@ const countCases = (() => {
 
 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
+	let country = 'Afghanistan';
+
+	console.log(dataHistory[country][0].confirmed);
+
 	//set the aprs
 
 	// console.log(dataHistory);
@@ -136,36 +140,18 @@ slider.oninput = function() {
 
  const sliderValue = document.getElementById('slider').value
 
- const country = Object.keys(dataHistory);
-
- const totalCase = dataHistory.Philippines[sliderValue].confirmed;
-	
- const countryId = document.getElementById('Philippines');
+ const countryList = Object.keys(dataHistory);
 
  const output = document.getElementById("demo");
 
- for (let countryCount = 0; countryCount < country.length; countryCount++) {
+ for (let countryCount = 0; countryCount < countryList.length; countryCount++) {
 
- 	// console.log(sliderValue);
+ 	const countryId = document.getElementById(countryList[countryCount]);
 
- 	// console.log(singleCountry);
+ 	let eachCountry = countryList[countryCount];
 
- 	const countryId = document.getElementById(country[countryCount]);
-
- 	// console.log(countryId);
- 	// const countryTest = {Afghanistan};
-
- 	//replace the country with a variable
-
- 	const totalCase = dataHistory.Afghanistan[sliderValue].confirmed;
-
- 	// const totalCaseTest = dataHistory.country[countryCount];
-
- 	// console.log(totalCaseTest)
-
- 	// console.log(dataHistory)
-
- 	// console.log(dataHistory.country[countryCount][sliderValue].confirmed)
+ 	//dynamically access object property using variable
+ 	const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
 
  	countryId.innerHTML = totalCase;
 
@@ -174,12 +160,4 @@ slider.oninput = function() {
 	output.innerHTML = sliderValue;
 
 	// console.log(countryId);
-
-	countryId.innerHTML = totalCase;
-
 }
-
-//get all country name
-// get their total case on each day
-
-// const countCases =
