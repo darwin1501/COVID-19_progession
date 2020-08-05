@@ -9,7 +9,6 @@
 const dataHistory = 'https://pomber.github.io/covid19/timeseries.json';
 // https://pomber.github.io/covid19/timeseries.json
 
-
 async function getData(){
 
 	let getDataHistory = await fetch( dataHistory );
