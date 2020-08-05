@@ -1,0 +1,22 @@
+{
+  "name": "covid_sim_v1",
+  "version": "1.0.0",
+  "description": "a map representation of COVID19 progression",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darwin1501/COVID-19_progession.git"
+  },
+  "author": "darwin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darwin1501/COVID-19_progession/issues"
+  },
+  "homepage": "https://github.com/darwin1501/COVID-19_progession#readme",
+  "dependencies": {
+    "highcharts": "^8.1.2"
+  }
+}
