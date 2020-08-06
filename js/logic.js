@@ -40,14 +40,72 @@ getData();
 
 //parse json
 
+// global data for json
+var data = [];
+
 //get all country name
+
+// json creator
+const generateData = ((country, value)=>{
+	console.log(`${country} || ${value}`);
+
+	//create object
+
+	const object = {"name": `${country}`,
+					"value": value}
+	data.push(object);
+
+})
+
+// generate map
+
+const generateMap = ((data)=>{
+	//render charts based on the json
+var chart = new Highcharts.Map('container', { 
+        chart: {
+        map: 'custom/world'
+    },
+       title: {
+        text: 'Highmaps basic demo'
+    },
+
+	mapNavigation: {
+			enableButtons: true,
+			enableDoubleClickZoom: true,
+			enableMouseWheelZoom: true,
+			enableTouchZoom: true,
+	}, 
+
+    colorAxis: {
+            min: 0,
+        },
+   
+    series: [{
+        data: data,
+        joinBy: ['name', 'name'],  // data will look the name property at the json.
+        name: 'Random data',
+        cursor: 'pointer',
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+         dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+
+    }]
+});
+
+})
 
 const getCountry = (() =>{
 
 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
 
-	const country = Object.keys(dataHistory);
+	const countryList = Object.keys(dataHistory);
 	//number of days since the pandemic has began on 1/22/2020
 	let days = dataHistory.Afghanistan.length
 
@@ -59,22 +117,17 @@ const getCountry = (() =>{
 
 	slider.setAttribute("max", days);
 
-	slider.setAttribute("value", days);
+	slider.setAttribute("value", 0);
+
+	const sliderValue = document.getElementById('slider').value
 
 	const output = document.getElementById("demo");
 
 	output.innerHTML = slider.value;
 
-	//slider
-	// console.log(country[0]);
+	for (let countryCount = 0; countryCount < countryList.length; countryCount++) {
 
-
-
-	// console.log(country[0])
-
-	for (let countryCount = 0; countryCount < country.length; countryCount++) {
-
-		let countryResult = country[countryCount]
+		let eachCountry = countryList[countryCount];
 		
 		let counrtyId = document.getElementById('country');
 
@@ -82,16 +135,32 @@ const getCountry = (() =>{
 
 		let h4 = document.createElement('h4');
 
-		h4.setAttribute("id", countryResult);
+		h4.setAttribute("id", eachCountry);
 
-		h1.innerHTML = countryResult;
+		h1.innerHTML = eachCountry;
 
 		h1.appendChild(h4);
 
 		counrtyId.appendChild(h1);
 
+		let eachCountryId = document.getElementById(eachCountry);
+
+ 		//dynamically access object property using variable
+ 		//total number of confimred cases on each day by country
+ 		const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
+
+ 		eachCountryId.innerHTML = totalCase;
+
+ 		generateData(eachCountry, totalCase)
+
 		// console.log(country[countryCount]);
 	};
+
+	console.log(data);
+
+	generateMap(data);
+	// run map generator
+
 
 })
 
@@ -103,34 +172,15 @@ const countCases = (() => {
 
 	console.log(dataHistory[country][0].confirmed);
 
-	//set the aprs
-
-	// console.log(dataHistory);
-	
-	// console.log(dataHistory.Philippines[0].confirmed);
-	//show the total case on specific day
 	const totalCase = dataHistory.Philippines[193].confirmed;
 	
 	const countryId = document.getElementById('Philippines');
 
-	// console.log(countryId);
-
 	countryId.innerHTML = totalCase;
-
-
-	// console.log(dataHistory[0].timeline.cases);
-	//pass thre result in array
-	//get int only for case count
-	//get string only for date
-	//distribute count on each ID
 
 })
 
 const slider = document.getElementById("slider");
-
-// const output = document.getElementById("demo");
-
-// output.innerHTML = slider.value;
 
 slider.oninput = function() {
 
@@ -147,12 +197,17 @@ slider.oninput = function() {
 
  	const countryId = document.getElementById(countryList[countryCount]);
 
+ 	//country name
  	let eachCountry = countryList[countryCount];
 
  	//dynamically access object property using variable
+ 	//total number of confimred cases on each day by country
  	const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
 
  	countryId.innerHTML = totalCase;
+
+ 	//modify json set the name and the value
+ 	//run the map function
 
  };
 
