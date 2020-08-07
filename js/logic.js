@@ -21,6 +21,8 @@ async function getData(){
 
 		sessionStorage.dataHistory = JSON.stringify( getDataHistory );
 
+		//modify the json 
+
 		getCountry();
 
 		// countCases();
@@ -104,9 +106,26 @@ const getCountry = (() =>{
 
 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
-	//modify the json file
+	// console.log(dataHistory);
 
-	const countryList = Object.keys(dataHistory);
+	let countryList = Object.keys(dataHistory);
+
+	// countryList.forEach(function(key) {
+
+ //    let country = countryList[key];
+
+ //    if(country == 'US'){
+
+ //        	// country=country.replace("\"US\":","\"United States of America\":");
+ //        	// // data = 'United States of America'
+
+ //        	return console.log('this is us')
+ //        }
+
+ //    // console.log(country);
+ //    // ...
+	// });
+	console.log(countryList);
 	//number of days since the pandemic has began on 1/22/2020
 	let days = dataHistory.Afghanistan.length
 
@@ -128,7 +147,13 @@ const getCountry = (() =>{
 
 	for (let countryCount = 0; countryCount < countryList.length; countryCount++) {
 
+
+
 		let eachCountry = countryList[countryCount];
+
+	// 		//modify the json file
+
+
 		
 		let counrtyId = document.getElementById('country');
 
@@ -156,6 +181,25 @@ const getCountry = (() =>{
 
 		// console.log(country[countryCount]);
 	};
+
+
+				// changed the us to United States of America
+	// const changedUS = data.filter(function(key) {
+ //        // return data.name === 'US'
+
+ //        if(key === 'US'){
+
+ //        	// data=data.replace("\"US\":","\"United States of America\":");
+ //        	// data = 'United States of America'
+
+ //        	console.log('this is us')
+
+ //        }
+ //    });
+
+ //    console.log(changedUS);
+
+
 
 	// run map generator
 	generateMap(data);

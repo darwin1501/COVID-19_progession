@@ -3,8 +3,8 @@
 
 
 // //modify the json
-var countryGeo = Highcharts.geojson(Highcharts.maps['custom/world']);
-console.log(countryGeo);
+// var countryGeo = Highcharts.geojson(Highcharts.maps['custom/world']);
+// console.log(countryGeo);
 // //prepare data
 
 // // var randomData = [['ph', 100], ['sa', 2000]]
