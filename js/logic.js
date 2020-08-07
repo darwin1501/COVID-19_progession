@@ -23,7 +23,7 @@ async function getData(){
 
 		getCountry();
 
-		countCases();
+		// countCases();
 		//get data here
 
 		// console.log(getDataHistory);
@@ -47,7 +47,7 @@ var data = [];
 
 // json creator
 const generateData = ((country, value)=>{
-	console.log(`${country} || ${value}`);
+	// console.log(`${country} || ${value}`);
 
 	//create object
 
@@ -104,6 +104,7 @@ const getCountry = (() =>{
 
 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
+	//modify the json file
 
 	const countryList = Object.keys(dataHistory);
 	//number of days since the pandemic has began on 1/22/2020
@@ -156,29 +157,27 @@ const getCountry = (() =>{
 		// console.log(country[countryCount]);
 	};
 
-	console.log(data);
-
-	generateMap(data);
 	// run map generator
+	generateMap(data);
 
 
 })
 
-const countCases = (() => {
+// const countCases = (() => {
 
-	const dataHistory = JSON.parse( sessionStorage.dataHistory );
+// 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
-	let country = 'Afghanistan';
+// 	let country = 'Afghanistan';
 
-	console.log(dataHistory[country][0].confirmed);
+// 	// console.log(dataHistory[country][0].confirmed);
 
-	const totalCase = dataHistory.Philippines[193].confirmed;
+// 	const totalCase = dataHistory.Philippines[193].confirmed;
 	
-	const countryId = document.getElementById('Philippines');
+// 	const countryId = document.getElementById('Philippines');
 
-	countryId.innerHTML = totalCase;
+// 	countryId.innerHTML = totalCase;
 
-})
+// })
 
 const slider = document.getElementById("slider");
 
@@ -201,17 +200,29 @@ slider.oninput = function() {
  	let eachCountry = countryList[countryCount];
 
  	//dynamically access object property using variable
+
  	//total number of confimred cases on each day by country
  	const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
 
  	countryId.innerHTML = totalCase;
 
  	//modify json set the name and the value
- 	//run the map function
+ 	// console.log(data[0].name);
+
+ 	
+
+ 	// set new value
+	data[countryCount].value = totalCase;
+
+		// console.log(data);
+
+	
 
  };
 
 	output.innerHTML = sliderValue;
+	//run the map function
+	generateMap(data)
 
 	// console.log(countryId);
 }
