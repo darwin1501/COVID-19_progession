@@ -34,8 +34,6 @@ async function getData(){
 
 		console.log(getDataHistory.status)
 	}
-
-
 }
 
 getData();
@@ -54,7 +52,8 @@ const generateData = ((country, value)=>{
 	//create object
 
 	const object = {"name": `${country}`,
-					"value": value}
+					"value": value,
+					"key": `${country}`}
 	data.push(object);
 
 })
@@ -110,22 +109,7 @@ const getCountry = (() =>{
 
 	let countryList = Object.keys(dataHistory);
 
-	// countryList.forEach(function(key) {
-
- //    let country = countryList[key];
-
- //    if(country == 'US'){
-
- //        	// country=country.replace("\"US\":","\"United States of America\":");
- //        	// // data = 'United States of America'
-
- //        	return console.log('this is us')
- //        }
-
- //    // console.log(country);
- //    // ...
-	// });
-	console.log(countryList);
+	// console.log(countryList);
 	//number of days since the pandemic has began on 1/22/2020
 	let days = dataHistory.Afghanistan.length
 
@@ -147,81 +131,59 @@ const getCountry = (() =>{
 
 	for (let countryCount = 0; countryCount < countryList.length; countryCount++) {
 
-
-
 		let eachCountry = countryList[countryCount];
 
-	// 		//modify the json file
+		//dynamically access object property using variable
 
-
-		
-		let counrtyId = document.getElementById('country');
-
-		let h1 = document.createElement('h1');
-
-		let h4 = document.createElement('h4');
-
-		h4.setAttribute("id", eachCountry);
-
-		h1.innerHTML = eachCountry;
-
-		h1.appendChild(h4);
-
-		counrtyId.appendChild(h1);
-
-		let eachCountryId = document.getElementById(eachCountry);
-
- 		//dynamically access object property using variable
  		//total number of confimred cases on each day by country
  		const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
-
- 		eachCountryId.innerHTML = totalCase;
-
+ 		//prepare json for map generation
  		generateData(eachCountry, totalCase)
+
+		//for testing purposes
+		
+		// let counrtyId = document.getElementById('country');
+
+		// let h1 = document.createElement('h1');
+
+		// let h4 = document.createElement('h4');
+
+		// h4.setAttribute("id", eachCountry);
+
+		// h1.innerHTML = eachCountry;
+
+		// h1.appendChild(h4);
+
+		// counrtyId.appendChild(h1);
+
+		// let eachCountryId = document.getElementById(eachCountry);
+
+ 		// eachCountryId.innerHTML = totalCase;
 
 		// console.log(country[countryCount]);
 	};
 
+	//modify json name value
+	//changed the name 'Taiwan*' to 'Taiwan'
+	const fixedTaiwan = data.filter(function(country) {
+        return country.key === 'Taiwan*'
+        
+    });
+    //changed the name 'US' to 'United States of America'
+    const fixedUS = data.filter(function(country) {
+        return country.key === 'US'
+        
+    });
 
-				// changed the us to United States of America
-	// const changedUS = data.filter(function(key) {
- //        // return data.name === 'US'
+	fixedTaiwan[0].name = 'Taiwan';
 
- //        if(key === 'US'){
+	fixedUS[0].name = 'United States of America';
 
- //        	// data=data.replace("\"US\":","\"United States of America\":");
- //        	// data = 'United States of America'
-
- //        	console.log('this is us')
-
- //        }
- //    });
-
- //    console.log(changedUS);
-
-
-
+    console.log(data);
 	// run map generator
 	generateMap(data);
 
-
 })
-
-// const countCases = (() => {
-
-// 	const dataHistory = JSON.parse( sessionStorage.dataHistory );
-
-// 	let country = 'Afghanistan';
-
-// 	// console.log(dataHistory[country][0].confirmed);
-
-// 	const totalCase = dataHistory.Philippines[193].confirmed;
-	
-// 	const countryId = document.getElementById('Philippines');
-
-// 	countryId.innerHTML = totalCase;
-
-// })
 
 const slider = document.getElementById("slider");
 
@@ -238,29 +200,18 @@ slider.oninput = function() {
 
  for (let countryCount = 0; countryCount < countryList.length; countryCount++) {
 
- 	const countryId = document.getElementById(countryList[countryCount]);
-
  	//country name
  	let eachCountry = countryList[countryCount];
 
- 	//dynamically access object property using variable
-
- 	//total number of confimred cases on each day by country
  	const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
 
- 	countryId.innerHTML = totalCase;
+ 	data[countryCount].value = totalCase;
 
- 	//modify json set the name and the value
- 	// console.log(data[0].name);
+ 	//for testing purposes
 
- 	
+ 	// countryId.innerHTML = totalCase;
 
- 	// set new value
-	data[countryCount].value = totalCase;
-
-		// console.log(data);
-
-	
+ 	// const countryId = document.getElementById(countryList[countryCount]);
 
  };
 
@@ -268,5 +219,4 @@ slider.oninput = function() {
 	//run the map function
 	generateMap(data)
 
-	// console.log(countryId);
 }
