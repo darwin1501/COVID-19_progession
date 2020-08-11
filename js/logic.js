@@ -41,26 +41,8 @@ getData();
 //parse json
 
 // global data for json
-var data = [];
+var jsonArray = [];
 
-//get all country name
-
-// json creator
-const generateData = ((country, value)=>{
-	// console.log(`${country} || ${value}`);
-
-	//create object
-
-	const object = {"name": `${country}`,
-					"value": value,
-					"key": `${country}`}
-	data.push(object);
-
-})
-
-// generate map
-
-const generateMap = ((data)=>{
 	//render charts based on the json
 var chart = new Highcharts.Map('container', { 
         chart: {
@@ -82,7 +64,7 @@ var chart = new Highcharts.Map('container', {
         },
    
     series: [{
-        data: data,
+        data: jsonArray,
         joinBy: ['name', 'name'],  // data will look the name property at the json.
         name: 'Random data',
         cursor: 'pointer',
@@ -99,7 +81,8 @@ var chart = new Highcharts.Map('container', {
     }]
 });
 
-})
+
+// })
 
 const getCountry = (() =>{
 
@@ -138,50 +121,40 @@ const getCountry = (() =>{
  		//total number of confimred cases on each day by country
  		const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
  		//prepare json for map generation
- 		generateData(eachCountry, totalCase)
+ 		// generateData(eachCountry, totalCase)
 
-		//for testing purposes
-		
-		// let counrtyId = document.getElementById('country');
+ 		const object = {"name": `${eachCountry}`,
+					"value": totalCase ,
+					"key": `${eachCountry}`}
 
-		// let h1 = document.createElement('h1');
 
-		// let h4 = document.createElement('h4');
+	jsonArray.push(object);
 
-		// h4.setAttribute("id", eachCountry);
-
-		// h1.innerHTML = eachCountry;
-
-		// h1.appendChild(h4);
-
-		// counrtyId.appendChild(h1);
-
-		// let eachCountryId = document.getElementById(eachCountry);
-
- 		// eachCountryId.innerHTML = totalCase;
-
-		// console.log(country[countryCount]);
 	};
 
 	//modify json name value
 	//changed the name 'Taiwan*' to 'Taiwan'
-	const fixedTaiwan = data.filter(function(country) {
+	const fixedTaiwan = jsonArray.filter(function(country) {
         return country.key === 'Taiwan*'
         
     });
     //changed the name 'US' to 'United States of America'
-    const fixedUS = data.filter(function(country) {
+    const fixedUS = jsonArray.filter(function(country) {
         return country.key === 'US'
         
     });
 
 	fixedTaiwan[0].name = 'Taiwan';
+	// fixedTaiwan[0].value = 0;
+
 
 	fixedUS[0].name = 'United States of America';
 
-    console.log(data);
-	// run map generator
-	generateMap(data);
+	chart.series[0].setData(jsonArray)
+
+	// chart.series[0].setData(jsonArray)
+
+	console.log(jsonArray);
 
 })
 
@@ -205,18 +178,31 @@ slider.oninput = function() {
 
  	const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
 
- 	data[countryCount].value = totalCase;
+ 	jsonArray[countryCount].value = totalCase;
 
- 	//for testing purposes
+ 	jsonArray[countryCount].name = eachCountry;
 
- 	// countryId.innerHTML = totalCase;
-
- 	// const countryId = document.getElementById(countryList[countryCount]);
+ 	jsonArray[countryCount].key = eachCountry;
 
  };
 
-	output.innerHTML = sliderValue;
-	//run the map function
-	generateMap(data)
 
+ const fixedTaiwan = jsonArray.filter(function(country) {
+        return country.key === 'Taiwan*'
+        
+    });
+    //changed the name 'US' to 'United States of America'
+    const fixedUS = jsonArray.filter(function(country) {
+        return country.key === 'US'
+        
+    });
+
+	fixedTaiwan[0].name = 'Taiwan';
+
+	fixedUS[0].name = 'United States of America';
+
+	output.innerHTML = sliderValue;
+
+	chart.series[0].setData(jsonArray)
+	
 }
