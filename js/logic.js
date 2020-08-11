@@ -38,6 +38,15 @@ async function getData(){
 
 getData();
 
+ var dataHistoryGlobal = JSON.parse( sessionStorage.dataHistory );
+
+ var countryListGlobal = Object.keys(dataHistoryGlobal);
+
+
+const updateChart = (()=>{
+	chart.series[0].setData(jsonArray)
+})
+
 //parse json
 
 // global data for json
@@ -131,52 +140,73 @@ const getCountry = (() =>{
 	jsonArray.push(object);
 
 	};
-
+	// Korea, South
 	//modify json name value
+	const fixedKoreaS = jsonArray.filter(function(country) {
+        return country.key === 'Korea, South'; 
+    });
+
+	const fixedTanzania = jsonArray.filter(function(country) {
+        return country.key === 'Tanzania'; 
+    });
+
+	const fixedCongoB = jsonArray.filter(function(country) {
+        return country.key === 'Congo (Brazzaville)';
+    });
+    const fixedCongoF = jsonArray.filter(function(country) {
+        return country.key === 'Congo (Kinshasa)';
+    });
 	//changed the name 'Taiwan*' to 'Taiwan'
 	const fixedTaiwan = jsonArray.filter(function(country) {
-        return country.key === 'Taiwan*'
-        
+        return country.key === 'Taiwan*';
     });
     //changed the name 'US' to 'United States of America'
     const fixedUS = jsonArray.filter(function(country) {
-        return country.key === 'US'
-        
+        return country.key === 'US';
     });
+
+    fixedKoreaS[0].name = 'South Korea';
+
+    fixedTanzania[0].name = 'United Republic of Tanzania';
+
+    fixedCongoB[0].name = 'Republic of Congo';
+
+    fixedCongoF[0].name = 'Democratic Republic of the Congo';
 
 	fixedTaiwan[0].name = 'Taiwan';
 	// fixedTaiwan[0].value = 0;
-
-
 	fixedUS[0].name = 'United States of America';
 
 	chart.series[0].setData(jsonArray)
 
 	// chart.series[0].setData(jsonArray)
 
-	console.log(jsonArray);
+	// console.log(jsonArray);
 
 })
 
+
 const slider = document.getElementById("slider");
 
-slider.oninput = function() {
+slider.oninput = async function() {
+
+	// console.log(dataHistoryGlobal);
 
   // output.innerHTML = this.value;
- const dataHistory = JSON.parse( sessionStorage.dataHistory );
+ // const dataHistory = JSON.parse( sessionStorage.dataHistory );
 
  const sliderValue = document.getElementById('slider').value
 
- const countryList = Object.keys(dataHistory);
+ // const countryList = Object.keys(dataHistory);
 
  const output = document.getElementById("demo");
 
- for (let countryCount = 0; countryCount < countryList.length; countryCount++) {
+ for (let countryCount = 0; countryCount < countryListGlobal.length; countryCount++) {
 
  	//country name
- 	let eachCountry = countryList[countryCount];
+ 	let eachCountry = countryListGlobal[countryCount];
 
- 	const totalCase = dataHistory[eachCountry][sliderValue].confirmed;
+ 	const totalCase = dataHistoryGlobal[eachCountry][sliderValue].confirmed;
 
  	jsonArray[countryCount].value = totalCase;
 
@@ -186,16 +216,38 @@ slider.oninput = function() {
 
  };
 
+ 	const fixedKoreaS = jsonArray.filter(function(country) {
+        return country.key === 'Korea, South'; 
+    });
 
- const fixedTaiwan = jsonArray.filter(function(country) {
-        return country.key === 'Taiwan*'
-        
+ 	const fixedTanzania = jsonArray.filter(function(country) {
+        return country.key === 'Tanzania'; 
+    });
+
+	const fixedCongoB = jsonArray.filter(function(country) {
+        return country.key === 'Congo (Brazzaville)'; 
+    });
+
+    const fixedCongoF = jsonArray.filter(function(country) {
+        return country.key === 'Congo (Kinshasa)'; 
+    });
+
+ 	const fixedTaiwan = jsonArray.filter(function(country) {
+        return country.key === 'Taiwan*'; 
     });
     //changed the name 'US' to 'United States of America'
     const fixedUS = jsonArray.filter(function(country) {
-        return country.key === 'US'
+        return country.key === 'US';
         
     });
+
+    fixedKoreaS[0].name = 'South Korea';
+
+    fixedTanzania[0].name = 'United Republic of Tanzania';
+
+    fixedCongoB[0].name = 'Republic of Congo';
+
+    fixedCongoF[0].name = 'Democratic Republic of the Congo';
 
 	fixedTaiwan[0].name = 'Taiwan';
 
@@ -203,6 +255,8 @@ slider.oninput = function() {
 
 	output.innerHTML = sliderValue;
 
-	chart.series[0].setData(jsonArray)
+	// await chart.series[0].setData(jsonArray)
+
+	await updateChart();
 	
 }
